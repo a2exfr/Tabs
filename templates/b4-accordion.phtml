@@ -1,0 +1,30 @@
+<div id="<?= $this->t_id ?>">
+	<?php $cl = $this->opened ? 'show' : '' ?>
+	<?php foreach ($this->data as $key => $item) { ?>
+		<div class="card">
+			<?php $tab = $this->t_id . $key ?>
+			<div class="card-header" id="heading<?= $tab ?>">
+				<h5 class="mb-0">
+					<button class="btn btn-link" data-toggle="collapse" data-target="#<?= $tab ?>" aria-expanded="true" aria-controls="<?= $tab ?>">
+						<?= $item['title'] ?>
+					</button>
+				</h5>
+			</div>
+			<div id="<?= $tab ?>" class="collapse <?= $cl ?>" aria-labelledby="heading<?= $tab ?>" data-parent="#<?= $this->t_id ?>">
+				<div class="card-body">
+					<?php if (isset($item['page_in_tab']) and $item['page_in_tab'] <> ""){
+						if ($item['page_type'] == "special"){
+							echo section_content::IncludeSpecial($item['page_in_tab_true']);
+						} else {
+							echo section_content::IncludePage($item['page_in_tab_true']);
+						}
+					} else {
+						echo $item['content'];
+					}
+					?>
+				</div>
+			</div>
+		</div>
+		<?php $cl = '' ?>
+	<?php } ?>
+</div>

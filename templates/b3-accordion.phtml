@@ -1,0 +1,30 @@
+<div class="panel-group" id="<?= $this->t_id ?>">
+	<?php $a = 'class="panel-collapse collapse ' . $this->opened . '"'; ?>
+	<?php foreach ($this->data as $key => $item) { ?>
+		<div class="panel <?= $this->panel_class ?>">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#<?= $this->t_id ?>" href="#<?= $this->t_id . $key ?>"><?= $item['title'] ?></a>
+				</h4>
+			</div>
+			<div id="<?= $this->t_id . $key ?>" <?= $a ?> >
+				<div class="panel-body">
+					<?php if (isset($item['page_in_tab']) and $item['page_in_tab'] <> ""){
+
+						if ($item['page_type'] == "special"){
+							echo section_content::IncludeSpecial($item['page_in_tab_true']);
+						} else {
+							echo section_content::IncludePage($item['page_in_tab_true']);
+						}
+					} else {
+						echo $item['content'];
+					}
+					?>
+				</div>
+			</div>
+
+		</div>
+		<?php
+		$a = 'class="panel-collapse collapse"';
+	} ?>
+</div>

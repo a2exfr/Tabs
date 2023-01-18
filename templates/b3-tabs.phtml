@@ -1,0 +1,45 @@
+<div <?= $this->b ?>>
+
+	<ul class="nav nav-tabs" role="tablist">
+
+		<?php $a = 'class="active"';
+
+		foreach ($this->data as $key => $item) {
+
+			echo '<li ' . $a . '><a data-toggle="tab" href="#' . $this->t_id . $key . '">' . $item['title'] . '</a></li>';
+
+			$a = "";
+
+		}
+		?>
+
+	</ul>
+	<?php $a = 'class="tab-pane fade in active"'; ?>
+
+	<div class="tab-content">
+
+		<?php foreach ($this->data as $key => $item) {
+
+			echo '<div id="' . $this->t_id . $key . '"		' . $a . '>';
+
+			if (isset($item['page_in_tab']) and $item['page_in_tab'] <> ""){
+
+				if ($item['page_type'] == "special"){
+					echo section_content::IncludeSpecial($item['page_in_tab_true']);
+				} else {
+					echo section_content::IncludePage($item['page_in_tab_true']);
+				}
+
+			} else {
+				echo $item['content'];
+			}
+
+			echo '</div>';
+
+			$a = 'class="tab-pane fade"';
+		}
+		?>
+
+	</div>
+
+</div>

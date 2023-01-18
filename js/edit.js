@@ -104,7 +104,7 @@ function gp_init_inline_edit(area_id, section_object) {
 		'</select></div>' +
 
 
-		'<br><a class="butt" href="' + ind + '/Admin_Tabs">Add Group</a><br><br>' +
+		'<br><a class="butt gpbutton" href="' + ind + '/Admin_Tabs">Add Group</a><br><br>' +
 
 		'</div>',
 	).appendTo(option_area)
@@ -123,7 +123,7 @@ function gp_init_inline_edit(area_id, section_object) {
 
 
 	if (section_object.tab_sel != 0) {
-		$('<a id="test" class="butt" href="' + ind + '/Admin_Tabs?cmd=edit_group_items&group_id=' + section_object.tab_sel + '">Edit Group Items</a><br><br>').appendTo(option_area)
+		$('<a id="test" class="butt gpbutton" href="' + ind + '/Admin_Tabs?cmd=edit_group_items&group_id=' + section_object.tab_sel + '">Edit Group Items</a><br><br>').appendTo(option_area)
 	}
 
 

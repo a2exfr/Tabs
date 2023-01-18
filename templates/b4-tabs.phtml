@@ -1,0 +1,32 @@
+<ul class="nav nav-tabs" id="<?= $this->t_id ?>" role="tablist">
+	<?php $a = 'active'; ?>
+	<?php foreach ($this->data as $key => $item) { ?>
+		<li class="nav-item">
+			<a class="nav-link <?= $a ?>" id="<?= $this->t_id . $key ?>-tab" data-toggle="tab" href="#<?= $this->t_id . $key ?>" role="tab" aria-selected="true"><?= $item['title'] ?></a>
+		</li>
+
+		<?php
+		$a = '';
+	} ?>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+	<?php $a = 'show active'; ?>
+	<?php foreach ($this->data as $key => $item) { ?>
+		<div class="tab-pane fade <?= $a ?>" id="<?= $this->t_id . $key ?>" role="tabpanel" aria-labelledby="<?= $this->t_id . $key ?>-tab">
+			<?php if (isset($item['page_in_tab']) and $item['page_in_tab'] <> ""){
+
+				if ($item['page_type'] == "special"){
+					echo section_content::IncludeSpecial($item['page_in_tab_true']);
+				} else {
+					echo section_content::IncludePage($item['page_in_tab_true']);
+				}
+			} else {
+				echo $item['content'];
+			}
+			?>
+		</div>
+		<?php
+		$a = '';
+	} ?>
+</div>

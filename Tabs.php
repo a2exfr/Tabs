@@ -1,14 +1,24 @@
 <?php defined('is_running') or die('Not an entry point...');
 
+gpPlugin_incl('tools/TabView.php');
+
 class Tabs{
 
-	function GetHead(){
-		global $page, $addonRelativeCode, $addonRelativeData, $addonPathData;
-		common::LoadComponents('bootstrap3-tab');
-		common::LoadComponents('bootstrap3-collapse');
+	static function GetHead(){
+		global $page, $addonRelativeCode, $addonRelativeData, $addonPathData, $gpversion;
 
-		$page->css_user[] = $addonRelativeCode . '/css/bootstrap.css'; //only tabs,panels,listgroup
-		$page->css_user[] = $addonRelativeCode . '/css/tab.css';
+		if (version_compare($gpversion, '5.1.0', '<=')){
+			$bootstrap = 'b3';
+			common::LoadComponents('bootstrap3-tab');
+			common::LoadComponents('bootstrap3-collapse');
+
+			$page->css_user[] = $addonRelativeCode . '/css/bootstrap.css'; //only tabs,panels,listgroup
+			$page->css_user[] = $addonRelativeCode . '/css/tab.css';
+		} else {
+			$bootstrap = 'b4';
+			common::LoadComponents('bootstrap4-tab');
+			common::LoadComponents('bootstrap4-collapse');
+		}
 
 		if (file_exists($addonPathData . '/tab_custom.css')){
 			$page->css_user[] = $addonRelativeData . '/tab_custom.css';
@@ -26,7 +36,7 @@ class Tabs{
 			$options['tabs_state'] = "";
 		}
 
-		if ($options['tabs_state']){
+		if ($options['tabs_state'] && $bootstrap == 'b3'){
 			$page->head_js[] = $addonRelativeCode . '/js/tabs_state.js';
 		}
 
@@ -46,23 +56,30 @@ class Tabs{
 
 	}
 
-	function SectionTypes($section_types){
+	static function SectionTypes($section_types){
 		$section_types['Tabs_section'] = [];
 		$section_types['Tabs_section']['label'] = 'Tabs';
 		return $section_types;
 	}
 
 
-	function SectionToContent($section_data){
+	static function SectionToContent($section_data){
 		if ($section_data['type'] != 'Tabs_section'){
 			return $section_data;
 		}
 
-		global $page, $dataDir, $dirPrefix, $addonRelativeCode, $addonPathData, $gp_titles;
+		global $addonPathData, $gpversion;
+
+		if (version_compare($gpversion, '5.1.0', '<=')){
+			$bootstrap = 'b3';
+		} else {
+			$bootstrap = 'b4';
+		}
 
 		$t_id = $section_data['tabs_id'];
 		$group_id = $section_data['tab_sel'];
 		$appearance = $section_data['appearance'];
+		$temp = new TabView();
 
 		if (array_key_exists('panel_class', $section_data)){
 			$panel_class = $section_data['panel_class'];
@@ -86,121 +103,21 @@ class Tabs{
 		ob_start();
 
 		if ($group_id == 0){
-
-
-			echo '<div class="col-md-6">
-	<ul class="nav nav-tabs" role="tablist">
-    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-    <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-    <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-    <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
-  </ul>
-
-  <div class="tab-content">
-    <div id="home" class="tab-pane fade in active">
-      <h3>HOME</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-    </div>
-    <div id="menu1" class="tab-pane fade">
-      <h3>Menu 1</h3>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div id="menu2" class="tab-pane fade">
-      <h3>Menu 2</h3>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-    </div>
-    <div id="menu3" class="tab-pane fade">
-      <h3>Menu 3</h3>
-      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-    </div>
-  </div>
-  </div>
-  ';
-
-			echo '<div class="col-md-6">
-		 <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Collapsible Group 1</a>
-        </h4>
-      </div>
-      <div id="collapse1" class="panel-collapse collapse in">
-        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Collapsible Group 2</a>
-        </h4>
-      </div>
-      <div id="collapse2" class="panel-collapse collapse">
-        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Collapsible Group 3</a>
-        </h4>
-      </div>
-      <div id="collapse3" class="panel-collapse collapse">
-        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-      </div>
-    </div>
-  </div>
-   </div>
-  ';
-
+			$temp->render($bootstrap . '-demo.phtml');
 		} elseif ($appearance == 1) {
 
 			if ($opened == "yes"){
 				$opened = "in";
 			} else {
 				$opened = "";
-			};
-
-			echo '<div class="panel-group" id="' . $t_id . '">';
-			$a = 'class="panel-collapse collapse ' . $opened . '"';
-			foreach ($data as $key => $item) {
-				echo '<div class="panel ' . $panel_class . '">';
-				echo '<div class="panel-heading">';
-				echo '<h4 class="panel-title">';
-				echo '<a data-toggle="collapse" data-parent="#' . $t_id . '" href="#' . $t_id . $key . '">' . $item['title'] . '</a>';
-				echo '</h4>';
-				echo '</div>';
-
-				echo '<div id="' . $t_id . $key . '" ' . $a . '>';
-				echo '<div class="panel-body">';
-				if (isset($item['page_in_tab']) and $item['page_in_tab'] <> ""){
-
-					if ($item['page_type'] == "special"){
-						echo section_content::IncludeSpecial($item['page_in_tab_true']);
-					} else {
-						echo section_content::IncludePage($item['page_in_tab_true']);
-					}
-
-				} else {
-					echo $item['content'];
-				}
-				echo '</div>';
-				echo '</div>';
-
-				$a = 'class="panel-collapse collapse"';
-				echo '</div>';
 			}
-
-			echo '</div>';
+			$temp->t_id = $t_id;
+			$temp->opened = $opened;
+			$temp->panel_class = $panel_class;
+			$temp->data = $data;
+			$temp->render($bootstrap . '-accordion.phtml');
 
 		} else {
-
 			if ($appearance == 0){
 				$b = '';
 			} elseif ($appearance == 2) {
@@ -209,48 +126,10 @@ class Tabs{
 				$b = 'class="tabbable tabs-right"';
 			}
 
-			echo '<div ' . $b . '>';
-			echo '<ul class="nav nav-tabs" role="tablist">';
-
-			$a = 'class="active"';
-
-			foreach ($data as $key => $item) {
-
-				echo '<li ' . $a . '><a data-toggle="tab" href="#' . $t_id . $key . '">' . $item['title'] . '</a></li>';
-
-				$a = "";
-
-			}
-
-			echo '</ul>';
-
-			$a = 'class="tab-pane fade in active"';
-			echo '<div class="tab-content">';
-
-			foreach ($data as $key => $item) {
-
-				echo '  <div id="' . $t_id . $key . '" ' . $a . '>';
-
-				if (isset($item['page_in_tab']) and $item['page_in_tab'] <> ""){
-
-					if ($item['page_type'] == "special"){
-						echo section_content::IncludeSpecial($item['page_in_tab_true']);
-					} else {
-						echo section_content::IncludePage($item['page_in_tab_true']);
-					}
-
-				} else {
-					echo $item['content'];
-				}
-
-				echo ' </div>';
-				$a = 'class="tab-pane fade"';
-			}
-
-			echo '</div>';
-
-			echo '</div>';
-
+			$temp->t_id = $t_id;
+			$temp->b = $b;
+			$temp->data = $data;
+			$temp->render($bootstrap . '-tabs.phtml');
 		}
 
 		$section_data['content'] = ob_get_clean();
@@ -259,7 +138,7 @@ class Tabs{
 
 	}
 
-	function NewSections($links){
+	static function NewSections($links){
 
 		global $addonRelativeCode;
 
@@ -274,7 +153,7 @@ class Tabs{
 	}
 
 
-	function DefaultContent($default_content, $type){
+	static function DefaultContent($default_content, $type){
 		if ($type != 'Tabs_section'){
 			return $default_content;
 		}
@@ -302,7 +181,7 @@ class Tabs{
 	}
 
 
-	function SaveSection($return, $section, $type){
+	static function SaveSection($return, $section, $type){
 		if ($type != 'Tabs_section'){
 			return $return;
 		}
@@ -337,7 +216,7 @@ class Tabs{
 	}
 
 
-	function PageRunScript($cmd){
+	static function PageRunScript($cmd){
 		global $page, $addonRelativeCode;
 
 		if ($cmd == 'refresh_section_tabs'){
@@ -363,7 +242,7 @@ class Tabs{
 		}
 
 		return $cmd;
-	} /* endof PageRunScript hook */
+	}
 
 }
 

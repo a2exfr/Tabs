@@ -4,6 +4,11 @@ includeFile('tool/editing.php');
 
 class Admin_Tabs{
 
+	private $PluginUrl;
+	public $lang_ext;
+	public $data_group;
+	public $data;
+
 	function __construct(){
 		global $page, $addonPathData, $addonRelativeCode, $langmessage, $gp_index;
 
@@ -282,7 +287,7 @@ class Admin_Tabs{
 
 		$check = $_POST['item']['page_in_tab'];
 
-		if (!isset($check)){
+		if (!isset($check) || !$check){
 			return;
 		}
 
@@ -303,9 +308,8 @@ class Admin_Tabs{
 			$_POST['item']['page_in_tab_true'] = $index[0];
 
 		} else {
-
 			//$_POST['item']['page_in_tab_true'] = $check;
-			$_POST['item']['page_in_tab_true'] = array_search($index[0], $gp_index);
+			$_POST['item']['page_in_tab_true'] = isset($index[0]) ? array_search($index[0], $gp_index) : false;
 		}
 
 		return;

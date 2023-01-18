@@ -5,6 +5,11 @@ defined('is_running') or die('Not an entry point...');
 
 class Admin_Tabs_Options{
 
+	private $lang_ext;
+	private $css_file;
+	private $tabs_state;
+	private $custom;
+
 	function __construct(){
 		global $page, $addonRelativeCode, $addonPathData;
 
