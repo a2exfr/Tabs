@@ -1,7 +1,7 @@
-<div id="<?= $this->t_id ?>">
+<div id="<?= $this->t_id ?>" class="accordeon">
 	<?php $cl = $this->opened ? 'show' : '' ?>
 	<?php foreach ($this->data as $key => $item) { ?>
-		<div class="card">
+		<div class="card <?= $this->panel_class ?>">
 			<?php $tab = $this->t_id . $key ?>
 			<div class="card-header" id="heading<?= $tab ?>">
 				<h5 class="mb-0">

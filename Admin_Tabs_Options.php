@@ -157,7 +157,7 @@ class Admin_Tabs_Options{
 		$text_color = trim($this->custom['text_color']);
 		$panel_color = trim($this->custom['panel_color']);
 
-		$css = '.panel.panel-custom{
+		$css3 = '.panel.panel-custom{
 				background-color: ' . $background . ';
 			 }
 
@@ -176,6 +176,26 @@ class Admin_Tabs_Options{
 			.panel-custom > .panel-footer + .panel-collapse > .panel-body {
 			  border-bottom-color: ' . $borders . ';
 			}';
+		$css4 = ' .card.panel-custom{
+					background-color:#fff;
+				}
+				.panel-custom{
+					border-color:' . $borders . ' !important;
+				}
+				.panel-custom > .card-header{
+					background-color:' . $background . ';
+					border-color:' . $borders . ';
+				}
+				.panel-custom > .card-header h5 > .btn{
+					color:' . $text_color . '!important;
+				}
+				.panel-custom > .collapse > .card-body{
+					background-color:' . $panel_color . ' !important;
+				}
+				.panel-custom > .collapsing > .card-body{
+					background-color:' . $panel_color . ' !important;
+				}';
+		$css = $css3 . $css4;
 
 		return gpFiles::Save($this->css_file, $css);
 

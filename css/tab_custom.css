@@ -20,3 +20,24 @@
 .panel-custom > .panel-footer + .panel-collapse > .panel-body{
 	border-bottom-color:#337ab7;
 }
+
+
+.card.panel-custom{
+	background-color:#fff;
+}
+.panel-custom{
+	border-color:tomato !important;
+}
+.panel-custom > .card-header{
+	background-color:tomato;
+	border-color:tomato;
+}
+.panel-custom > .card-header h5 > .btn{
+	color:#ffffff;
+}
+.panel-custom > .collapse > .card-body{
+	background-color:tomato !important;
+}
+.panel-custom > .collapsing > .card-body{
+	background-color:tomato !important;
+}

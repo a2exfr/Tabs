@@ -16,8 +16,8 @@ class Tabs{
 			$page->css_user[] = $addonRelativeCode . '/css/tab.css';
 		} else {
 			$bootstrap = 'b4';
-			common::LoadComponents('bootstrap4-tab');
-			common::LoadComponents('bootstrap4-collapse');
+			common::LoadComponents('bootstrap4-js');
+			gpPlugin::css('/css/b4-colors.css');
 		}
 
 		if (file_exists($addonPathData . '/tab_custom.css')){
