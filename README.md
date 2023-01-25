@@ -11,6 +11,7 @@ Can be simple tabs, left tabs, right tabs or acordion.
 Bugs, issues, suggestions for improvements are welcome. http://www.gpeasy.com/Forum?show=f1307
 
 
+* vers 1.7.1 - fix custom colors
 * vers 1.7.0 - support php8, bootstrap4
 * vers 1.6.2 - custom color pallete for acordion
 * vers 1.6.1 - new settings for acordion added, color choose, open or no first item on page load
